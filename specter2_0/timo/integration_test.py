@@ -26,13 +26,13 @@ def test_prediction(self, container):
 ```
 """
 
-
 import logging
 import sys
 import unittest
 
-from .interface import Instance, Prediction
+import pydantic.error_wrappers
 
+from .interface import Instance, Prediction, TaskType
 
 try:
     from timo_interface import with_timo_container
@@ -47,7 +47,49 @@ except ImportError as e:
 @with_timo_container
 class TestInterfaceIntegration(unittest.TestCase):
     def test__predictions(self, container):
-        instances = []
+        instances = [Instance(title="Don't Stop Pretraining", task_type=TaskType.DEFAULT)]
         predictions = container.predict_batch(instances)
 
-        self.assertEqual(predictions, [])
+        self.assertEqual(predictions[0].embedding.shape[0], 768)
+
+        instances.append(Instance(title="Don't Stop Pretraining",
+                                  abstract="Language models pretrained on text from a wide variety of sources form the foundation of today\u2019s NLP.",
+                                  task_type=TaskType.DEFAULT))
+        predictions = container.predict_batch(instances)
+        self.assertEqual(len(predictions), 2)
+        self.assertNotEqual(predictions[0].embedding[0], predictions[1].embedding[0])
+
+        instances.append(Instance(title="Don't Stop Pretraining",
+                                  abstract="Language models pretrained on text from a wide variety of sources form the foundation of today\u2019s NLP.",
+                                  task_type=TaskType.CLASSIFICATION))
+        instances.append(Instance(title="Don't Stop Pretraining",
+                                  abstract="Language models pretrained on text from a wide variety of sources form the foundation of today\u2019s NLP.",
+                                  task_type=TaskType.REGRESSION))
+        instances.append(Instance(title="Don't Stop Pretraining",
+                                  abstract="Language models pretrained on text from a wide variety of sources form the foundation of today\u2019s NLP.",
+                                  task_type=TaskType.REGRESSION))
+        instances.append(Instance(title="Don't Stop Pretraining",
+                                  abstract="Language models pretrained on text from a wide variety of sources form the foundation of today\u2019s NLP.",
+                                  task_type=TaskType.PROXIMITY))
+        instances.append(Instance(title="Don't Stop Pretraining",
+                                  abstract="Language models pretrained on text from a wide variety of sources form the foundation of today\u2019s NLP.",
+                                  task_type=TaskType.ADHOC_QUERY))
+        predictions = container.predict_batch(instances)
+        self.assertEqual(len(predictions), 7)
+        self.assertNotAlmostEqual(predictions[-1].embedding[0], predictions[-2].embedding[0])
+        for i in range(7):
+            if i !=3 and i!=4:
+                self.assertNotAlmostEqual(predictions[3].embedding[10], predictions[i].embedding[10])
+            else:
+                self.assertAlmostEqual(predictions[3].embedding[10], predictions[i].embedding[10])
+        import os
+        os.environ["use_fp16"] = "True"
+
+        predictions = container.predict_batch(instances)
+        self.assertAlmostEqual(predictions[3].embedding[2], predictions[4].embedding[2])
+
+    def test_invalid_instance(self, container):
+        self.assertRaises(pydantic.error_wrappers.ValidationError, Instance)
+        self.assertRaises(pydantic.error_wrappers.ValidationError, Instance, title="Don't Stop Pretraining")
+        self.assertRaises(pydantic.error_wrappers.ValidationError, Instance, title="Don't Stop Pretraining",
+                          abstract=None)

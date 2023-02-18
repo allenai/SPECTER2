@@ -35,12 +35,11 @@ class Instance(BaseModel):
     https://pydantic-docs.helpmanual.io/
     """
 
-    title: str = Field(default="...", description="Title of the paper to be embedded/raw text query")
+    title: str = Field(..., description="Title of the paper to be embedded/raw text query")
     abstract: str = Field(default=None, description="Abstract of the paper to be embedded", )
-    task_type: TaskType = Field(default="...",
-                                description="Task format for which embedding is required. For no specific format, "
-                                            "pass DEFAULT. For adhoc search tasks, provide ADHOC_QUERY for "
-                                            "query and PROXIMITY for candidates.")
+    task_type: TaskType = Field(..., description="Task format for which embedding is required. For no specific format, "
+                                                 "pass DEFAULT. For adhoc search tasks, provide ADHOC_QUERY for "
+                                                 "query and PROXIMITY for candidates.")
 
 
 class Prediction(BaseModel):
@@ -54,7 +53,11 @@ class Prediction(BaseModel):
     https://pydantic-docs.helpmanual.io/
     """
 
-    embedding: np.array = Field(description="Embedding for the paper(title, abstract) with dim. 768")
+    embedding: np.ndarray = Field(default_factory=lambda: np.zeros(768),
+                                  description="Embedding for the paper(title, abstract) with dim. 768")
+
+    class Config:
+        arbitrary_types_allowed = True
 
 
 class PredictorConfig(BaseSettings):
@@ -68,7 +71,7 @@ class PredictorConfig(BaseSettings):
     """
 
     # example_field: str = Field(default="asdf", description="Used to [...]")
-    use_fp16: bool = Field(default=False, description="fp16 inference for embeddings")
+    use_fp16: bool = Field(default=False, env="use_fp16", description="fp16 inference for embeddings")
     max_len: int = Field(default=512, description="max input length to be processed by the model")
 
 
@@ -112,17 +115,18 @@ class Predictor:
             self.base_encoder.to('cuda')
         self.base_encoder.eval()
 
-    def encode_batch(self, input_ids: torch.Tensor, attention_mask: torch.Tensor, task_type: TaskType) -> np.array:
+    def encode_batch(self, input_ids: torch.Tensor, attention_mask: torch.Tensor, task_type: TaskType) -> np.ndarray:
         """
                 Perform whatever start-up operations are required to get your
                 model ready for inference. This operation is performed only once
                 during the application life-cycle.
         """
         if TaskType.DEFAULT != task_type:
-            self.base_encoder.set_active_adapters(task_type.name.lower())
+            self.base_encoder.base_model.set_active_adapters(task_type.name.lower())
         else:
-            self.base_encoder.set_active_adapters(None)
-        emb_tensor = self.base_encoder(input_ids, attention_mask=attention_mask)
+            self.base_encoder.base_model.set_active_adapters(None)
+        output = self.base_encoder(input_ids, attention_mask=attention_mask)
+        emb_tensor = output.last_hidden_state[:, 0, :]
         return emb_tensor.detach().cpu().numpy()
 
     def predict_one(self, instance: Instance) -> Prediction:
@@ -134,6 +138,7 @@ class Predictor:
         title = instance.title
         abstract = instance.abstract
         text = f"{title} {self.tokenizer.sep_token} {abstract}" if abstract else title
+        print(text)
         input_ids = self.tokenizer([text], padding=True, truncation=True,
                                    return_tensors="pt", return_token_type_ids=False, max_length=self._config.max_len)
         embedding = self.encode_batch(task_type=instance.task_type, **input_ids)
@@ -156,16 +161,18 @@ class Predictor:
         The size of the batches passed into this method is configurable
         via environment variable by the calling application.
         """
-        task_types = np.array([ins.task_type for ins in instances])
+        task_types = np.array([ins.task_type.value for ins in instances])
         task_idx_map = {ttype: np.where(task_types == ttype) for ttype in np.unique(task_types)}
         text_batch = [f"{ins.title} {self.tokenizer.sep_token} {ins.abstract}" if ins.abstract else ins.title for ins in
                       instances]
         input_ids = self.tokenizer(text_batch, padding=True, truncation=True,
                                    return_tensors="pt", return_token_type_ids=False, max_length=self._config.max_len)
-        batch_embeddings = np.zeros((len(instances)))
+        batch_embeddings = np.zeros((len(instances), self.base_encoder.config.hidden_size))
+        input_ids, attention_mask = input_ids["input_ids"], input_ids["attention_mask"]
         for ttype in np.unique(task_types):
-            sub_input_ids = input_ids[task_idx_map[ttype]]
-            sub_embedding = self.encode_batch(task_type=ttype, **sub_input_ids, )
+            sub_input_ids = {"input_ids": input_ids[task_idx_map[ttype]],
+                             "attention_mask": attention_mask[task_idx_map[ttype]]}
+            sub_embedding = self.encode_batch(task_type=TaskType(ttype), **sub_input_ids, )
             batch_embeddings[task_idx_map[ttype]] = sub_embedding
         batch_embeddings = batch_embeddings.astype(np.float16) if self._config.use_fp16 else batch_embeddings
         return [Prediction(embedding=emb) for emb in batch_embeddings]
