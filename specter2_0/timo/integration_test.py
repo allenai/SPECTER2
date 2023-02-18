@@ -50,7 +50,7 @@ class TestInterfaceIntegration(unittest.TestCase):
         instances = [Instance(title="Don't Stop Pretraining", task_type=TaskType.DEFAULT)]
         predictions = container.predict_batch(instances)
 
-        self.assertEqual(predictions[0].embedding.shape[0], 768)
+        self.assertEqual(len(predictions[0].embedding), 768)
 
         instances.append(Instance(title="Don't Stop Pretraining",
                                   abstract="Language models pretrained on text from a wide variety of sources form the foundation of today\u2019s NLP.",

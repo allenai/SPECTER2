@@ -10,13 +10,13 @@ from typing import List
 
 from pydantic import BaseModel, BaseSettings, Field
 import numpy as np
-from enum import Enum
+from enum import IntEnum
 from transformers import AutoAdapterModel, AutoTokenizer
 import os
 import torch
 
 
-class TaskType(Enum):
+class TaskType(IntEnum):
     DEFAULT = 1
     CLASSIFICATION = 2
     REGRESSION = 3
@@ -53,7 +53,7 @@ class Prediction(BaseModel):
     https://pydantic-docs.helpmanual.io/
     """
 
-    embedding: np.ndarray = Field(default_factory=lambda: np.zeros(768),
+    embedding: List[float] = Field(default_factory=lambda: np.zeros(768),
                                   description="Embedding for the paper(title, abstract) with dim. 768")
 
     class Config:
@@ -143,7 +143,7 @@ class Predictor:
                                    return_tensors="pt", return_token_type_ids=False, max_length=self._config.max_len)
         embedding = self.encode_batch(task_type=instance.task_type, **input_ids)
         embedding = embedding.astype(np.float16) if self._config.use_fp16 else embedding
-        return Prediction(embedding=embedding)
+        return Prediction(embedding=list(embedding))
 
     def predict_batch(self, instances: List[Instance]) -> List[Prediction]:
         """
@@ -175,4 +175,4 @@ class Predictor:
             sub_embedding = self.encode_batch(task_type=TaskType(ttype), **sub_input_ids, )
             batch_embeddings[task_idx_map[ttype]] = sub_embedding
         batch_embeddings = batch_embeddings.astype(np.float16) if self._config.use_fp16 else batch_embeddings
-        return [Prediction(embedding=emb) for emb in batch_embeddings]
+        return [Prediction(embedding=list(emb)) for emb in batch_embeddings]
