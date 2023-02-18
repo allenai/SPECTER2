@@ -1,4 +1,4 @@
-config_version: 0.0.1
+config_version: 1.0.0
 model_variants:
   specter2_0: 
     # Class path to pydantic Instance implementation in <model_package_name>==<model_package_version>

@@ -10,18 +10,18 @@ from typing import List
 
 from pydantic import BaseModel, BaseSettings, Field
 import numpy as np
-from enum import IntEnum
+from enum import Enum
 from transformers import AutoAdapterModel, AutoTokenizer
 import os
 import torch
 
 
-class TaskType(IntEnum):
-    DEFAULT = 1
-    CLASSIFICATION = 2
-    REGRESSION = 3
-    PROXIMITY = 4
-    ADHOC_QUERY = 5
+class TaskType(str, Enum):
+    DEFAULT = "default"
+    CLASSIFICATION = "classification"
+    REGRESSION = "regression"
+    PROXIMITY = "proximity"
+    ADHOC_QUERY = "adhoc_query"
 
 
 class Instance(BaseModel):
@@ -141,6 +141,8 @@ class Predictor:
         print(text)
         input_ids = self.tokenizer([text], padding=True, truncation=True,
                                    return_tensors="pt", return_token_type_ids=False, max_length=self._config.max_len)
+        if torch.cuda.is_available():
+            input_ids.to("cuda")
         embedding = self.encode_batch(task_type=instance.task_type, **input_ids)
         embedding = embedding.astype(np.float16) if self._config.use_fp16 else embedding
         return Prediction(embedding=list(embedding))
@@ -167,6 +169,8 @@ class Predictor:
                       instances]
         input_ids = self.tokenizer(text_batch, padding=True, truncation=True,
                                    return_tensors="pt", return_token_type_ids=False, max_length=self._config.max_len)
+        if torch.cuda.is_available():
+            input_ids.to("cuda")
         batch_embeddings = np.zeros((len(instances), self.base_encoder.config.hidden_size))
         input_ids, attention_mask = input_ids["input_ids"], input_ids["attention_mask"]
         for ttype in np.unique(task_types):
