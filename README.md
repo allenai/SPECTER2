@@ -1,8 +1,11 @@
-# specter2_0
+# SPECTER 2.0
 
-## What does this model do?
+## Overview
+SPECTER 2.0 is a document embedding model for scientific documents. It builds on the original [SPECTER](https://github.com/allenai/specter) and [SciRepEval](https://github.com/allenai/scirepeval) works, and can be used to generate effective embeddings for multiple task formats i.e Classification, Regression, Retrieval and Search. 
 
-[1-2 sentence description of the inputs/outputs and how it works]
+## Usage
+### HuggingFace
+
 
 ## Link to training / test datasets
 
