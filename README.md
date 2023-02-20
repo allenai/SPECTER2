@@ -3,8 +3,20 @@
 ## Overview
 SPECTER 2.0 is a document embedding model for scientific tasks and documents. It builds on the original [SPECTER](https://github.com/allenai/specter) and [SciRepEval](https://github.com/allenai/scirepeval) works, and can be used to generate effective embeddings for multiple task formats i.e Classification, Regression, Retrieval and Search. 
 
+## Setup
+If using the existing model weights for inference:
+```bash
+https://github.com/allenai/SPECTER2_0.git
+cd SPECTER2_0
+conda create -n specter2_0 python=3.8
+pip install -e .
+pip install -r requirements.txt
+```
+For training/ benchmarking, please setup [SciRepEval]
+
+
 ## Usage
-We train a base model from scratch on citation links like SPECTER, but our training data consists of 6M (10x) triplets spanning 21 [fields of studies](https://api.semanticscholar.org/CorpusID:256194545). 
+We train a base model from scratch on citation links like SPECTER, but our training data consists of 6M (10x) triplets spanning 23 [fields of studies](https://api.semanticscholar.org/CorpusID:256194545). 
 Then we train task format specific adapters with SciRepEval to generate multiple embeddings for the same paper.
 We represent the input paper as a concatenation of its title and abstract.
 For Search type tasks where the input query is a short text rather a paper, use the adhoc query model below to encode it and the retrieval model to encode the candidate papers.  
@@ -91,8 +103,35 @@ Follow Step 2 onwards in the provided ReadMe.
 
 ## Link to training / test datasets
 
-The training and validation triplets have been added to the SciRepEval benchmark, and is available [here](https://huggingface.co/datasets/allenai/scirepeval/viewer/cite_prediction_new/evaluation).
+The training and validation triplets have been added to the SciRepEval benchmark, and is available [here(https://huggingface.co/datasets/allenai/scirepeval/viewer/cite_prediction_new/evaluation)!.
 The training data consists of triplets from [SciNCL](https://github.com/malteos/scincl) as a subset.
+
+|Field of Study|
+|-|
+|Agricultural And Food Sciences|
+|Art|
+|Biology|
+|Business|
+|Chemistry|
+|Computer Science|
+|Economics|
+|Education|
+|Engineering|
+|Environmental Science|
+|Geography|
+|Geology|
+|History|
+|Law|
+|Linguistics|
+|Materials Science|
+|Mathematics|
+|Medicine|
+|Philosophy|
+|Physics|
+|Political Science|
+|Psychology|
+|Sociology|
+
 The model is trained in two stages using [SciRepEval](https://github.com/allenai/scirepeval/blob/main/training/TRAINING.md):
 - Base Model: First a base model is trained on the above citation triplets.
 ``` batch size = 1024, max input length = 512, learning rate = 2e-5, epochs = 2```
