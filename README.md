@@ -101,20 +101,19 @@ The model is trained in two stages using [SciRepEval](https://github.com/allenai
 
 
 ## Link to evaluation information
+We evaluate the model on [SciRepEval](https://github.com/allenai/scirepeval), a large scale eval benchmark for scientific embedding tasks which which has [SciDocs] as a subset.
+We also evaluate and establish a new SoTA on [MDCR](https://github.com/zoranmedic/mdcr), a large scale citation recommendation benchmark.
 
-[probably a link to a jupyter notebook, maybe even defined in this repo]
+|Model|SciRepEval In-Train|SciRepEval Out-of-Train|SciRepEval Avg|MDCR(MAP, Recall@5)|
+|--|--|--|--|--|
+|[BM-25](https://api.semanticscholar.org/CorpusID:252199740)|n/a|n/a|n/a|(33.7, 28.5)|
+|[SPECTER](https://huggingface.co/allenai/specter)|54.7|57.4|68.0|(30.6, 25.5)|
+|[SciNCL](https://huggingface.co/malteos/scincl)|55.6|57.8|69.0|(32.6, 27.3)|
+|[SciRepEval-Adapters](https://huggingface.co/models?search=scirepeval)|61.9|59.0|70.9|(35.3, 29.6)|
+|[SPECTER 2.0-base](https://huggingface.co/allenai/specter_plus_plus)|56.3|58.0|69.2|(38.0, 32.4)|
+|[SPECTER 2.0-Adapters](https://huggingface.co/models?search=allen/spp)|**62.3**|**59.2**|**71.2**|**(38.4, 33.0)**|
 
-## Verifying and Publishing This Model
+The per task evaluation reult can be found in this [spreadsheet](https://docs.google.com/spreadsheets/d/1JMq-jR4M8KU119cvglUDmMwwzd60Z3vyvn3VqhPn9EY/edit?pli=1#gid=1223599722).
 
-```
-tt verify -c specter2_0/timo/config.yaml
-```
-
-```
-tt publish -c specter2_0/timo/config.yaml
-```
-
-See [TIMO User Guide](https://github.com/allenai/timo/blob/main/docs/timo-tools/userguide.md) for
-more details.
 
 
