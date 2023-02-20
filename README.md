@@ -115,5 +115,28 @@ We also evaluate and establish a new SoTA on [MDCR](https://github.com/zoranmedi
 
 The per task evaluation reult can be found in this [spreadsheet](https://docs.google.com/spreadsheets/d/1JMq-jR4M8KU119cvglUDmMwwzd60Z3vyvn3VqhPn9EY/edit?pli=1#gid=1223599722).
 
+##Citation
+Please cite the following works if you end up using SPECTER 2.0:
+
+[SPECTER paper](https://api.semanticscholar.org/CorpusID:215768677):  
+
+```bibtex
+@inproceedings{specter2020cohan,
+  title={{SPECTER: Document-level Representation Learning using Citation-informed Transformers}},
+  author={Arman Cohan and Sergey Feldman and Iz Beltagy and Doug Downey and Daniel S. Weld},
+  booktitle={ACL},
+  year={2020}
+}
+```
+[SciRepEval paper](https://api.semanticscholar.org/CorpusID:254018137)
+```bibtex
+@article{Singh2022SciRepEvalAM,
+  title={SciRepEval: A Multi-Format Benchmark for Scientific Document Representations},
+  author={Amanpreet Singh and Mike D'Arcy and Arman Cohan and Doug Downey and Sergey Feldman},
+  journal={ArXiv},
+  year={2022},
+  volume={abs/2211.13308}
+}
+```
 
 
