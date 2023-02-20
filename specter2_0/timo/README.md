@@ -46,5 +46,5 @@ Prediction: class
  
  [Service Config](https://github.com/allenai/timo/tree/main/timo_services/configs)
  
- [Data Dog logs](https://app.datadoghq.com/logs?query=service%3Aspecter2-v1&cols=host%2Cservice&index=%2A&messageDisplay=inline&stream_sort=time%2Cdesc&viz=stream&from_ts=1676922067796&to_ts=1676922967796&live=true)
+ [DataDog logs](https://app.datadoghq.com/logs?query=service%3Aspecter2-v1&cols=host%2Cservice&index=%2A&messageDisplay=inline&stream_sort=time%2Cdesc&viz=stream&from_ts=1676922067796&to_ts=1676922967796&live=true)
   
