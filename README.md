@@ -75,7 +75,7 @@ tokenizer = AutoTokenizer.from_pretrained('specter2_0/models/base')
 model = AutoModel.from_pretrained('specter2_0/models/base')
 
 #load the adapter(s) as per the required task, provide an identifier for the adapter in load_as argument and activate it
-model.load_adapter("specter2_0/models/adapters/adhoc_query", load_as="adhoc_query", set_active=True) 
+model.load_adapter("specter2_0/models/adapters/proximity", load_as="proximity", set_active=True) 
 #other possibilities: .../adapters/<classification|regression|proximity>
 
 papers = [{'title': 'BERT', 'abstract': 'We introduce a new language representation model called BERT'},
