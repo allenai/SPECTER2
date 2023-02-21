@@ -12,7 +12,7 @@ conda create -n specter2_0 python=3.8
 pip install -e .
 pip install -r requirements.txt
 ```
-For training/ benchmarking, please setup [SciRepEval]
+For training/ benchmarking, please setup [SciRepEval](https://github.com/allenai/scirepeval) 
 
 
 ## Usage
