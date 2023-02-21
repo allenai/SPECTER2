@@ -101,7 +101,7 @@ model = Model(variant="adapters", base_checkpoint="allenai/specter_plus_plus", a
 ```
 Follow Step 2 onwards in the provided ReadMe.
 
-## Link to training / test datasets
+## Training
 
 The training and validation triplets have been added to the SciRepEval benchmark, and is available [here(https://huggingface.co/datasets/allenai/scirepeval/viewer/cite_prediction_new/evaluation)!.
 The training data consists of triplets from [SciNCL](https://github.com/malteos/scincl) as a subset.
@@ -141,7 +141,7 @@ The model is trained in two stages using [SciRepEval](https://github.com/allenai
 ``` batch size = 256, max input length = 512, learning rate = 1e-4, epochs = 6```
 
 
-## Link to evaluation information
+## Evaluation
 We evaluate the model on [SciRepEval](https://github.com/allenai/scirepeval), a large scale eval benchmark for scientific embedding tasks which which has [SciDocs] as a subset.
 We also evaluate and establish a new SoTA on [MDCR](https://github.com/zoranmedic/mdcr), a large scale citation recommendation benchmark.
 
