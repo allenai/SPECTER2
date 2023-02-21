@@ -41,7 +41,7 @@ tokenizer = AutoTokenizer.from_pretrained('allenai/specter_plus_plus')
 model = AutoModel.from_pretrained('allenai/specter_plus_plus')
 
 #load the adapter(s) as per the required task, provide an identifier for the adapter in load_as argument and activate it
-model.load_adapter("allenai/spp_adhoc_query", source="hf", load_as="adhoc_query", set_active=True)
+model.load_adapter("allenai/spp_proximity", source="hf", load_as="proximity", set_active=True)
 
 papers = [{'title': 'BERT', 'abstract': 'We introduce a new language representation model called BERT'},
           {'title': 'Attention is all you need', 'abstract': ' The dominant sequence transduction models are based on complex recurrent or convolutional neural networks'}]
