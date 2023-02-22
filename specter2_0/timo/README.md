@@ -48,3 +48,4 @@ Prediction: class
  
  [DataDog logs](https://app.datadoghq.com/logs?query=service%3Aspecter2-v1&cols=host%2Cservice&index=%2A&messageDisplay=inline&stream_sort=time%2Cdesc&viz=stream&from_ts=1676922067796&to_ts=1676922967796&live=true)
   
+[DataDog dashboard](https://app.datadoghq.com/dashboard/vn2-xez-b2d/timo-services?tpl_var_service_name%5B0%5D=specter2-v1&from_ts=1677090357802&to_ts=1677104757802&live=true)
