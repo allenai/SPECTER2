@@ -154,7 +154,7 @@ We also evaluate and establish a new SoTA on [MDCR](https://github.com/zoranmedi
 |[SPECTER 2.0-base](https://huggingface.co/allenai/specter_plus_plus)|56.3|58.0|69.2|(38.0, 32.4)|
 |[SPECTER 2.0-Adapters](https://huggingface.co/models?search=allen/spp)|**62.3**|**59.2**|**71.2**|**(38.4, 33.0)**|
 
-The per task evaluation reult can be found in this [spreadsheet](https://docs.google.com/spreadsheets/d/1JMq-jR4M8KU119cvglUDmMwwzd60Z3vyvn3VqhPn9EY/edit?pli=1#gid=1223599722).
+The per task evaluation result can be found in this [spreadsheet](https://docs.google.com/spreadsheets/d/1HKOeWYh6KTZ_b8OM9gHfOtI8cCV9rO1DQUjiUIYYcwg/edit?usp=sharing).
 
 ## Citation
 Please cite the following works if you end up using SPECTER 2.0:
