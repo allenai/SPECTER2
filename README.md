@@ -1,5 +1,9 @@
 # SPECTER 2.0
 
+### \*\*\*\*Update***
+
+The huggingface model names have been updated to remain consistent with this repo. Please refer to the updated names [here](https://huggingface.co/models?search=allenai/specter-2).
+
 ## Overview
 SPECTER 2.0 is a document embedding model for scientific tasks and documents. It builds on the original [SPECTER](https://github.com/allenai/specter) and [SciRepEval](https://github.com/allenai/scirepeval) works, and can be used to generate effective embeddings for multiple task formats i.e Classification, Regression, Retrieval and Search. 
 
