@@ -1,6 +1,6 @@
 # SPECTER 2.0
 
-### \*\*\*\*Update***
+### \*\*\*\*Update 28 Feb 2023***
 
 The huggingface model names have been updated to remain consistent with this repo. Please refer to the updated names [here](https://huggingface.co/models?search=allenai/specter-2).
 
