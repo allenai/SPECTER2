@@ -25,23 +25,23 @@ All the models are publicly available on HuggingFace and AWS S3.
 ### HuggingFace
 |Model|Type|Name and HF link|
 |--|--|--|
-|Base|Transformer|[allenai/specter_plus_plus](https://huggingface.co/allenai/specter_plus_plus)|
-|Classification|Adapter|[allenai/spp_classification](https://huggingface.co/allenai/spp_classification)|
-|Regression|Adapter|[allenai/spp_regression](https://huggingface.co/allenai/spp_regression)|
-|Retrieval|Adapter|[allenai/spp_proximity](https://huggingface.co/allenai/spp_proximity)|
-|Adhoc Query|Adapter|[allenai/spp_adhoc_query](https://huggingface.co/allenai/spp_adhoc_query)|
+|Base|Transformer|[allenai/specter2](https://huggingface.co/allenai/specter2)|
+|Classification|Adapter|[allenai/specter2_classification](https://huggingface.co/allenai/specter2_classification)|
+|Regression|Adapter|[allenai/specter2_regression](https://huggingface.co/allenai/specter2_regression)|
+|Retrieval|Adapter|[allenai/specter2_proximity](https://huggingface.co/allenai/specter2_proximity)|
+|Adhoc Query|Adapter|[allenai/specter2_adhoc_query](https://huggingface.co/allenai/specter2_adhoc_query)|
 
 ```python
 from transformers import AutoTokenizer, AutoModel
 
 # load model and tokenizer
-tokenizer = AutoTokenizer.from_pretrained('allenai/specter_plus_plus')
+tokenizer = AutoTokenizer.from_pretrained('allenai/specter2')
 
 #load base model
-model = AutoModel.from_pretrained('allenai/specter_plus_plus')
+model = AutoModel.from_pretrained('allenai/specter2')
 
 #load the adapter(s) as per the required task, provide an identifier for the adapter in load_as argument and activate it
-model.load_adapter("allenai/spp_proximity", source="hf", load_as="proximity", set_active=True)
+model.load_adapter("allenai/specter2_proximity", source="hf", load_as="proximity", set_active=True)
 
 papers = [{'title': 'BERT', 'abstract': 'We introduce a new language representation model called BERT'},
           {'title': 'Attention is all you need', 'abstract': ' The dominant sequence transduction models are based on complex recurrent or convolutional neural networks'}]
@@ -96,8 +96,8 @@ To generate the embeddings for an input batch, follow [INFERENCE.md](https://git
 Create the Model instance as follows:
 ```python
 
-adapters_dict = {"[CLF]": "allenai/spp_classification", "[QRY]": "allenai/spp_adhoc_query", "[RGN]": "allenai/spp_regression", "[PRX]": "allenai/spp_proximity"}
-model = Model(variant="adapters", base_checkpoint="allenai/specter_plus_plus", adapters_load_from=adapters_dict, all_tasks=["[CLF]", "[QRY]", "[RGN]", "[PRX]"])
+adapters_dict = {"[CLF]": "allenai/specter2_classification", "[QRY]": "allenai/specter2_adhoc_query", "[RGN]": "allenai/specter2_regression", "[PRX]": "allenai/specter2_proximity"}
+model = Model(variant="adapters", base_checkpoint="allenai/specter2", adapters_load_from=adapters_dict, all_tasks=["[CLF]", "[QRY]", "[RGN]", "[PRX]"])
 ```
 Follow Step 2 onwards in the provided ReadMe.
 
@@ -151,8 +151,8 @@ We also evaluate and establish a new SoTA on [MDCR](https://github.com/zoranmedi
 |[SPECTER](https://huggingface.co/allenai/specter)|54.7|57.4|68.0|(30.6, 25.5)|
 |[SciNCL](https://huggingface.co/malteos/scincl)|55.6|57.8|69.0|(32.6, 27.3)|
 |[SciRepEval-Adapters](https://huggingface.co/models?search=scirepeval)|61.9|59.0|70.9|(35.3, 29.6)|
-|[SPECTER 2.0-base](https://huggingface.co/allenai/specter_plus_plus)|56.3|58.0|69.2|(38.0, 32.4)|
-|[SPECTER 2.0-Adapters](https://huggingface.co/models?search=allen/spp)|**62.3**|**59.2**|**71.2**|**(38.4, 33.0)**|
+|[SPECTER 2.0-base](https://huggingface.co/allenai/specter2)|56.3|58.0|69.2|(38.0, 32.4)|
+|[SPECTER 2.0-Adapters](https://huggingface.co/models?search=allen/specter2_)|**62.3**|**59.2**|**71.2**|**(38.4, 33.0)**|
 
 The per task evaluation result can be found in this [spreadsheet](https://docs.google.com/spreadsheets/d/1HKOeWYh6KTZ_b8OM9gHfOtI8cCV9rO1DQUjiUIYYcwg/edit?usp=sharing).
 
@@ -179,5 +179,3 @@ Please cite the following works if you end up using SPECTER 2.0:
   volume={abs/2211.13308}
 }
 ```
-
-
