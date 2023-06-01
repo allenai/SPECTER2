@@ -2,10 +2,12 @@
 
 ### \*\*\*\*Update 28 Feb 2023***
 
-The huggingface model names have been updated for consistency with this repo. Please refer to the updated names [here](https://huggingface.co/models?search=allenai/specter-2).
+The huggingface model names have been updated for consistency with this repo. Please refer to the updated names [here](https://github.com/allenai/SPECTER2_0/edit/main/README.md#huggingface).
 
 ## Overview
-SPECTER 2.0 is a document embedding model for scientific tasks and documents. It builds on the original [SPECTER](https://github.com/allenai/specter) and [SciRepEval](https://github.com/allenai/scirepeval) works, and can be used to generate effective embeddings for multiple task formats i.e Classification, Regression, Retrieval and Search. 
+SPECTER 2.0 is a collection of document embedding models for scientific tasks. It builds on the original [SPECTER](https://github.com/allenai/specter) and [SciRepEval](https://github.com/allenai/scirepeval) works, and can be used to generate specific embeddings for multiple task formats i.e Classification, Regression, Retrieval and Search based on the chosen type of associated adapter (examples below). 
+
+**Note:** To get the best performance for a particular task format, please load the appropriate adapter along with the base transformer model as given [below](https://github.com/allenai/SPECTER2_0/edit/main/README.md#huggingface). 
 
 ## Setup
 If using the existing model weights for inference:
@@ -27,13 +29,14 @@ For Search type tasks where the input query is a short text rather a paper, use 
 All the models are publicly available on HuggingFace and AWS S3.
 
 ### HuggingFace
-|Model|Type|Name and HF link|
+|Model|Name and HF link|Description|
 |--|--|--|
-|Base|Transformer|[allenai/specter2](https://huggingface.co/allenai/specter2)|
-|Classification|Adapter|[allenai/specter2_classification](https://huggingface.co/allenai/specter2_classification)|
-|Regression|Adapter|[allenai/specter2_regression](https://huggingface.co/allenai/specter2_regression)|
-|Retrieval|Adapter|[allenai/specter2_proximity](https://huggingface.co/allenai/specter2_proximity)|
-|Adhoc Query|Adapter|[allenai/specter2_adhoc_query](https://huggingface.co/allenai/specter2_adhoc_query)|
+|Retrieval*|[allenai/specter2_proximity](https://huggingface.co/allenai/specter2_proximity)|Encode papers as queries and candidates eg. Link Prediction, Nearest Neighbor Search|
+|Adhoc Query|[allenai/specter2_adhoc_query](https://huggingface.co/allenai/specter2_adhoc_query)|Encode short raw text queries for search tasks. (Candidate papers can be encoded with proximity)|
+|Classification|[allenai/specter2_classification](https://huggingface.co/allenai/specter2_classification)|Encode papers to feed into linear classifiers as features|
+|Regression|[allenai/specter2_regression](https://huggingface.co/allenai/specter2_regression)|Encode papers to feed into linear regressors as features|
+
+*Retrieval model should suffice for downstream task types not mentioned above
 
 ```python
 from transformers import AutoTokenizer, AutoModel
@@ -46,6 +49,7 @@ model = AutoModel.from_pretrained('allenai/specter2')
 
 #load the adapter(s) as per the required task, provide an identifier for the adapter in load_as argument and activate it
 model.load_adapter("allenai/specter2_proximity", source="hf", load_as="proximity", set_active=True)
+#other possibilities: allenai/specter2_<classification|regression|adhoc_query>
 
 papers = [{'title': 'BERT', 'abstract': 'We introduce a new language representation model called BERT'},
           {'title': 'Attention is all you need', 'abstract': ' The dominant sequence transduction models are based on complex recurrent or convolutional neural networks'}]
@@ -80,7 +84,7 @@ model = AutoModel.from_pretrained('specter2_0/models/base')
 
 #load the adapter(s) as per the required task, provide an identifier for the adapter in load_as argument and activate it
 model.load_adapter("specter2_0/models/adapters/proximity", load_as="proximity", set_active=True) 
-#other possibilities: .../adapters/<classification|regression|proximity>
+#other possibilities: .../adapters/<classification|regression|adhoc_query>
 
 papers = [{'title': 'BERT', 'abstract': 'We introduce a new language representation model called BERT'},
           {'title': 'Attention is all you need', 'abstract': ' The dominant sequence transduction models are based on complex recurrent or convolutional neural networks'}]
@@ -95,7 +99,7 @@ output = model(**inputs)
 embeddings = output.last_hidden_state[:, 0, :]
 ```
 
-### Batch Processing (requires GPU)
+### Batch Processing for multiple task types (requires GPU)
 To generate the embeddings for an input batch, follow [INFERENCE.md](https://github.com/allenai/scirepeval/blob/main/evaluation/INFERENCE.md).
 Create the Model instance as follows:
 ```python
@@ -155,24 +159,12 @@ We also evaluate and establish a new SoTA on [MDCR](https://github.com/zoranmedi
 |[SPECTER](https://huggingface.co/allenai/specter)|54.7|57.4|68.0|(30.6, 25.5)|
 |[SciNCL](https://huggingface.co/malteos/scincl)|55.6|57.8|69.0|(32.6, 27.3)|
 |[SciRepEval-Adapters](https://huggingface.co/models?search=scirepeval)|61.9|59.0|70.9|(35.3, 29.6)|
-|[SPECTER 2.0-base](https://huggingface.co/allenai/specter2)|56.3|58.0|69.2|(38.0, 32.4)|
 |[SPECTER 2.0-Adapters](https://huggingface.co/models?search=allenai/specter-2)|**62.3**|**59.2**|**71.2**|**(38.4, 33.0)**|
 
 The per task evaluation result can be found in this [spreadsheet](https://docs.google.com/spreadsheets/d/1HKOeWYh6KTZ_b8OM9gHfOtI8cCV9rO1DQUjiUIYYcwg/edit?usp=sharing).
 
 ## Citation
 Please cite the following works if you end up using SPECTER 2.0:
-
-[SPECTER paper](https://api.semanticscholar.org/CorpusID:215768677):  
-
-```bibtex
-@inproceedings{specter2020cohan,
-  title={{SPECTER: Document-level Representation Learning using Citation-informed Transformers}},
-  author={Arman Cohan and Sergey Feldman and Iz Beltagy and Doug Downey and Daniel S. Weld},
-  booktitle={ACL},
-  year={2020}
-}
-```
 [SciRepEval paper](https://api.semanticscholar.org/CorpusID:254018137)
 ```bibtex
 @article{Singh2022SciRepEvalAM,
