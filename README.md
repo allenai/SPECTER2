@@ -32,7 +32,7 @@ All the models are publicly available on HuggingFace and AWS S3.
 |Classification|[allenai/specter2_classification](https://huggingface.co/allenai/specter2_classification)|Encode papers to feed into linear classifiers as features|
 |Regression|[allenai/specter2_regression](https://huggingface.co/allenai/specter2_regression)|Encode papers to feed into linear regressors as features|
 
-*Retrieval model should suffice for downstream task types not mentioned above
+*Retrieval model should suffice for any other downstream task types not mentioned above
 
 ```python
 from transformers import AutoTokenizer, AutoModel
