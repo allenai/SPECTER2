@@ -107,7 +107,7 @@ Follow Step 2 onwards in the provided ReadMe.
 
 ## Training
 
-The training and validation triplets have been added to the SciRepEval benchmark, and is available [here(https://huggingface.co/datasets/allenai/scirepeval/viewer/cite_prediction_new/evaluation)!.
+The training and validation triplets have been added to the SciRepEval benchmark, and is available [here](https://huggingface.co/datasets/allenai/scirepeval/viewer/cite_prediction_new/evaluation).
 The training data consists of triplets from [SciNCL](https://github.com/malteos/scincl) as a subset.
 
 The training triplets cover the following fields of study:
