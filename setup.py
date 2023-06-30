@@ -11,7 +11,7 @@ requirements = ["adapter-transformers==3.0.1",
 
 setuptools.setup(
     name="specter2_0",
-    version="1.0.0",
+    version="1.0.1",
     description="Embeddings for scientifiic papers",
     url="https://github.com/allenai/SPECTER2_0",
     packages=setuptools.find_packages(),
