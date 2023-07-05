@@ -1,6 +1,6 @@
 config_version: 1.0.0
 model_variants:
-  specter2_0: 
+  specter2_0:
     # Class path to pydantic Instance implementation in <model_package_name>==<model_package_version>
     instance: specter2_0.timo.interface.Instance
 
@@ -33,7 +33,7 @@ model_variants:
 
     # One of the versions here: https://gitlab.com/nvidia/container-images/cuda/blob/master/doc/supported-tags.md#ubuntu2004, but less than 11.4.3.
     # If cuda=True and cuda_version is unspecified, defaults to 11.4.2.
-    cuda_version: 11.5.0
+    cuda_version: 11.5.2
 
     # Python path to a fn in <model_package_name>==<model_package_version> that
     # returns a unittest.TestCase. Builder function receives a model container
