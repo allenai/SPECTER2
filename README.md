@@ -27,7 +27,7 @@ All the models are publicly available on HuggingFace and AWS S3.
 ### HuggingFace
 |Model|Name and HF link|Description|
 |--|--|--|
-|Retrieval*|[allenai/specter2_proximity](https://huggingface.co/allenai/specter2_proximity)|Encode papers as queries and candidates eg. Link Prediction, Nearest Neighbor Search|
+|Retrieval*|[allenai/specter2_proximity](https://huggingface.co/allenai/specter2)|Encode papers as queries and candidates eg. Link Prediction, Nearest Neighbor Search|
 |Adhoc Query|[allenai/specter2_adhoc_query](https://huggingface.co/allenai/specter2_adhoc_query)|Encode short raw text queries for search tasks. (Candidate papers can be encoded with proximity)|
 |Classification|[allenai/specter2_classification](https://huggingface.co/allenai/specter2_classification)|Encode papers to feed into linear classifiers as features|
 |Regression|[allenai/specter2_regression](https://huggingface.co/allenai/specter2_regression)|Encode papers to feed into linear regressors as features|
@@ -38,13 +38,13 @@ All the models are publicly available on HuggingFace and AWS S3.
 from transformers import AutoTokenizer, AutoModel
 
 # load model and tokenizer
-tokenizer = AutoTokenizer.from_pretrained('allenai/specter2')
+tokenizer = AutoTokenizer.from_pretrained('allenai/specter2_base')
 
 #load base model
-model = AutoModel.from_pretrained('allenai/specter2')
+model = AutoModel.from_pretrained('allenai/specter2_base')
 
 #load the adapter(s) as per the required task, provide an identifier for the adapter in load_as argument and activate it
-model.load_adapter("allenai/specter2_proximity", source="hf", load_as="proximity", set_active=True)
+model.load_adapter("allenai/specter2", source="hf", load_as="proximity", set_active=True)
 #other possibilities: allenai/specter2_<classification|regression|adhoc_query>
 
 papers = [{'title': 'BERT', 'abstract': 'We introduce a new language representation model called BERT'},
