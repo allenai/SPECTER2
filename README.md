@@ -1,4 +1,10 @@
 # SPECTER 2.0
+**Aug 2023 Update: The SPECTER 2.0 base and proximity models have been renamed in Hugging Face based upon usage patterns as follows:**
+
+|Old Name|New Name|
+|--|--|
+|allenai/specter2|[allenai/specter2_base](https://huggingface.co/allenai/specter2_base)|
+|allenai/specter2_proximity|[allenai/specter2](https://huggingface.co/allenai/specter2)|
 
 ## Overview
 SPECTER 2.0 is a collection of document embedding models for scientific tasks. It builds on the original [SPECTER](https://github.com/allenai/specter) and [SciRepEval](https://github.com/allenai/scirepeval) works, and can be used to generate specific embeddings for multiple task formats i.e Classification, Regression, Retrieval and Search based on the chosen type of associated adapter (examples below). 
