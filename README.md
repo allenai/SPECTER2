@@ -13,7 +13,7 @@
 ## Overview
 SPECTER 2.0 is a collection of document embedding models for scientific tasks. It builds on the original [SPECTER](https://github.com/allenai/specter) and [SciRepEval](https://github.com/allenai/scirepeval) works, and can be used to generate specific embeddings for multiple task formats i.e Classification, Regression, Retrieval and Search based on the chosen type of associated adapter (examples below). 
 
-**Note:** To get the best performance for a particular task format, please load the appropriate adapter along with the base transformer model as given [below](https://github.com/allenai/SPECTER2_0/edit/main/README.md#huggingface). 
+**Note:** To get the best performance for a particular task format, please load the appropriate adapter along with the base transformer model as given [below](https://github.com/allenai/SPECTER2_0#huggingface). 
 
 ## Setup
 If using the existing model weights for inference:
