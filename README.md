@@ -1,6 +1,6 @@
-# SPECTER 2.0
+# SPECTER2
 **Aug 2023 Update:**
-1. The SPECTER 2.0 Base and proximity adapter models have been renamed in Hugging Face based upon usage patterns as follows:
+1. The SPECTER2 Base and proximity adapter models have been renamed in Hugging Face based upon usage patterns as follows:
 
 |Old Name|New Name|
 |--|--|
@@ -11,16 +11,16 @@
    However, for benchmarking purposes, please continue using the current version.
 
 ## Overview
-SPECTER 2.0 is a collection of document embedding models for scientific tasks. It builds on the original [SPECTER](https://github.com/allenai/specter) and [SciRepEval](https://github.com/allenai/scirepeval) works, and can be used to generate specific embeddings for multiple task formats i.e Classification, Regression, Retrieval and Search based on the chosen type of associated adapter (examples below). 
+SPECTER2 is a collection of document embedding models for scientific tasks. It builds on the original [SPECTER](https://github.com/allenai/specter) and [SciRepEval](https://github.com/allenai/scirepeval) works, and can be used to generate specific embeddings for multiple task formats i.e Classification, Regression, Retrieval and Search based on the chosen type of associated adapter (examples below). 
 
 **Note:** To get the best performance for a particular task format, please load the appropriate adapter along with the base transformer model as given [below](https://github.com/allenai/SPECTER2_0#huggingface). 
 
 ## Setup
 If using the existing model weights for inference:
 ```bash
-https://github.com/allenai/SPECTER2_0.git
-cd SPECTER2_0
-conda create -n specter2_0 python=3.8
+https://github.com/allenai/SPECTER2.git
+cd SPECTER2
+conda create -n specter2 python=3.8
 pip install -e .
 pip install -r requirements.txt
 ```
@@ -72,8 +72,8 @@ embeddings = output.last_hidden_state[:, 0, :]
 
 ### AWS S3 via CLI
 ```bash
-mkdir -p specter2_0/models
-cd specter2_0/models
+mkdir -p specter2/models
+cd specter2/models
 aws s3 --no-sign-request cp s3://ai2-s2-research-public/specter2_0/specter2_0.tar.gz .
 tar -xvf specter2_0.tar.gz
 ```
@@ -83,13 +83,13 @@ The above commands will copy all the model weights from S3 as a tar archive and 
 from transformers import AutoTokenizer, AutoModel
 
 # load model and tokenizer
-tokenizer = AutoTokenizer.from_pretrained('specter2_0/models/base')
+tokenizer = AutoTokenizer.from_pretrained('specter2/models/base')
 
 #load base model
-model = AutoModel.from_pretrained('specter2_0/models/base')
+model = AutoModel.from_pretrained('specter2/models/base')
 
 #load the adapter(s) as per the required task, provide an identifier for the adapter in load_as argument and activate it
-model.load_adapter("specter2_0/models/adapters/proximity", load_as="proximity", set_active=True) 
+model.load_adapter("specter2/models/adapters/proximity", load_as="proximity", set_active=True) 
 #other possibilities: .../adapters/<classification|regression|adhoc_query>
 
 papers = [{'title': 'BERT', 'abstract': 'We introduce a new language representation model called BERT'},
@@ -165,7 +165,8 @@ We also evaluate and establish a new SoTA on [MDCR](https://github.com/zoranmedi
 |[SPECTER](https://huggingface.co/allenai/specter)|54.7|57.4|68.0|(30.6, 25.5)|
 |[SciNCL](https://huggingface.co/malteos/scincl)|55.6|57.8|69.0|(32.6, 27.3)|
 |[SciRepEval-Adapters](https://huggingface.co/models?search=scirepeval)|61.9|59.0|70.9|(35.3, 29.6)|
-|[SPECTER 2.0-Adapters](https://huggingface.co/models?search=allenai/specter-2)|**62.3**|**59.2**|**71.2**|**(38.4, 33.0)**|
+|[SPECTER2 Base](allenai/specter2_base)|56.3|73.6|69.1|(38.0, 32.4)|
+|[SPECTER2-Adapters](https://huggingface.co/models?search=allenai/specter-2)|**62.3**|**59.2**|**71.2**|**(38.4, 33.0)**|
 
 The per task evaluation result can be found in this [spreadsheet](https://docs.google.com/spreadsheets/d/1HKOeWYh6KTZ_b8OM9gHfOtI8cCV9rO1DQUjiUIYYcwg/edit?usp=sharing).
 
