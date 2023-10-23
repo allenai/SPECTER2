@@ -166,7 +166,7 @@ We also evaluate and establish a new SoTA on [MDCR](https://github.com/zoranmedi
 |[SciNCL](https://huggingface.co/malteos/scincl)|55.6|73.4|68.8|(32.6, 27.3)|
 |[SciRepEval-Adapters](https://huggingface.co/models?search=scirepeval)|61.9|73.8|70.7|(35.3, 29.6)|
 |[SPECTER2 Base](allenai/specter2_base)|56.3|73.6|69.1|(38.0, 32.4)|
-|[SPECTER2-Adapters](https://huggingface.co/models?search=allenai/specter-2)|**62.4**|**73.9**|**70.9**|**(38.4, 33.0)**|
+|[SPECTER2-Adapters](https://huggingface.co/models?search=allenai/specter-2)|**62.3**|**74.1**|**71.1**|**(38.4, 33.0)**|
 
 The per task evaluation result can be found in this [spreadsheet](https://docs.google.com/spreadsheets/d/1HKOeWYh6KTZ_b8OM9gHfOtI8cCV9rO1DQUjiUIYYcwg/edit?usp=sharing).
 
