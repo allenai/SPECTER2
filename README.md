@@ -1,4 +1,9 @@
 # SPECTER2
+
+**Dec 2023 Update:**
+
+Model usage updated to be compatible with latest versions of transformers and adapters (newly released update to adapter-transformers) libraries.
+
 **Aug 2023 Update:**
 1. The SPECTER2 Base and proximity adapter models have been renamed in Hugging Face based upon usage patterns as follows:
 
@@ -45,13 +50,14 @@ All the models are publicly available on HuggingFace and AWS S3.
 *Retrieval model should suffice for any other downstream task types not mentioned above
 
 ```python
-from transformers import AutoTokenizer, AutoModel
+from transformers import AutoTokenizer
+from adapters import AutoAdapterModel
 
 # load model and tokenizer
 tokenizer = AutoTokenizer.from_pretrained('allenai/specter2_base')
 
 #load base model
-model = AutoModel.from_pretrained('allenai/specter2_base')
+model = AutoAdapterModel.from_pretrained('allenai/specter2_base')
 
 #load the adapter(s) as per the required task, provide an identifier for the adapter in load_as argument and activate it
 model.load_adapter("allenai/specter2", source="hf", load_as="proximity", set_active=True)
@@ -80,13 +86,14 @@ tar -xvf specter2_0.tar.gz
 The above commands will copy all the model weights from S3 as a tar archive and extract two folders-base and adapters.
 
 ```python
-from transformers import AutoTokenizer, AutoModel
+from transformers import AutoTokenizer
+from adapters import AutoAdapterModel
 
 # load model and tokenizer
 tokenizer = AutoTokenizer.from_pretrained('specter2/models/base')
 
 #load base model
-model = AutoModel.from_pretrained('specter2/models/base')
+model = AutoAdapterModel.from_pretrained('specter2/models/base')
 
 #load the adapter(s) as per the required task, provide an identifier for the adapter in load_as argument and activate it
 model.load_adapter("specter2/models/adapters/proximity", load_as="proximity", set_active=True) 
