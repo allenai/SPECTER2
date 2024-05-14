@@ -181,11 +181,11 @@ The per task evaluation result can be found in this [spreadsheet](https://docs.g
 Please cite the following works if you end up using SPECTER 2.0:
 [SciRepEval paper](https://api.semanticscholar.org/CorpusID:254018137)
 ```bibtex
-@article{Singh2022SciRepEvalAM,
+@inproceedings{Singh2022SciRepEvalAM,
   title={SciRepEval: A Multi-Format Benchmark for Scientific Document Representations},
   author={Amanpreet Singh and Mike D'Arcy and Arman Cohan and Doug Downey and Sergey Feldman},
-  journal={ArXiv},
+  booktitle={Conference on Empirical Methods in Natural Language Processing},
   year={2022},
-  volume={abs/2211.13308}
+  url={https://api.semanticscholar.org/CorpusID:254018137}
 }
 ```
