@@ -28,9 +28,11 @@ cd SPECTER2
 conda create -n specter2 python=3.8
 pip install -e .
 pip install -r requirements.txt
-```
-For training/ benchmarking, please setup [SciRepEval](https://github.com/allenai/scirepeval) 
 
+# or uv sync --extra cpu
+```
+
+For training/ benchmarking, please setup [SciRepEval](https://github.com/allenai/scirepeval)
 
 ## Usage
 We train a base model from scratch on citation links like SPECTER, but our training data consists of 6M (10x) triplets spanning 23 [fields of studies](https://api.semanticscholar.org/CorpusID:256194545). 
