@@ -71,8 +71,8 @@ papers = [{'title': 'BERT', 'abstract': 'We introduce a new language representat
 # concatenate title and abstract
 text_batch = [d['title'] + tokenizer.sep_token + (d.get('abstract') or '') for d in papers]
 # preprocess the input
-inputs = self.tokenizer(text_batch, padding=True, truncation=True,
-                                   return_tensors="pt", return_token_type_ids=False, max_length=512)
+inputs = tokenizer(text_batch, padding=True, truncation=True, 
+                   return_tensors="pt", return_token_type_ids=False, max_length=512)
 output = model(**inputs)
 # take the first token in the batch as the embedding
 embeddings = output.last_hidden_state[:, 0, :]
@@ -107,8 +107,8 @@ papers = [{'title': 'BERT', 'abstract': 'We introduce a new language representat
 # concatenate title and abstract
 text_batch = [d['title'] + tokenizer.sep_token + (d.get('abstract') or '') for d in papers]
 # preprocess the input
-inputs = self.tokenizer(text_batch, padding=True, truncation=True,
-                                   return_tensors="pt", return_token_type_ids=False, max_length=512)
+inputs = tokenizer(text_batch, padding=True, truncation=True,
+                   return_tensors="pt", return_token_type_ids=False, max_length=512)
 output = model(**inputs)
 # take the first token in the batch as the embedding
 embeddings = output.last_hidden_state[:, 0, :]
