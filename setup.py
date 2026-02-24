@@ -11,7 +11,7 @@ requirements = ["adapter-transformers==3.0.1",
 
 setuptools.setup(
     name="specter2_0",
-    version="1.0.1",
+    version="1.0.2",
     description="Embeddings for scientifiic papers",
     url="https://github.com/allenai/SPECTER2_0",
     packages=setuptools.find_packages(),
@@ -23,5 +23,5 @@ setuptools.setup(
             "pytest"
         ]
     },
-    python_requires="~= 3.8"
+    python_requires="~= 3.11"
 )
